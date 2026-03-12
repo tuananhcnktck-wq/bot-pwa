@@ -7,26 +7,16 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="CryptoBot">
     <title>🔐 CryptoBot</title>
-    <link rel="manifest" href="manifest.json">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
         #loginScreen {
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -36,33 +26,20 @@
             border-radius: 20px;
             padding: 40px 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 100%;
+            width: 90%;
             max-width: 350px;
         }
-        .logo {
-            font-size: 60px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #667eea;
-            margin-bottom: 30px;
-            font-size: 24px;
-        }
-        input[type="password"], input[type="text"], input[type="number"] {
+        .logo { font-size: 60px; text-align: center; margin-bottom: 20px; }
+        h1 { text-align: center; color: #667eea; margin-bottom: 30px; font-size: 24px; }
+        input {
             width: 100%;
             padding: 15px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
-            transition: all 0.3s;
             margin-bottom: 15px;
         }
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+        input:focus { outline: none; border-color: #667eea; }
         .btn {
             width: 100%;
             padding: 15px;
@@ -73,15 +50,10 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
             margin-bottom: 10px;
         }
-        .btn:active {
-            transform: scale(0.98);
-        }
-        #mainApp {
-            display: none;
-        }
+        .btn:active { transform: scale(0.98); }
+        #mainApp { display: none; }
         .header {
             background: white;
             border-radius: 15px;
@@ -89,16 +61,8 @@
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .welcome {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .date {
-            color: #999;
-            font-size: 14px;
-        }
+        .welcome { font-size: 24px; font-weight: 700; color: #333; margin-bottom: 5px; }
+        .date { color: #999; font-size: 14px; }
         .card {
             background: white;
             border-radius: 15px;
@@ -106,12 +70,7 @@
             margin-bottom: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-        }
+        .card-title { font-size: 18px; font-weight: 600; color: #333; margin-bottom: 15px; }
         .stat-row {
             display: flex;
             justify-content: space-between;
@@ -119,57 +78,13 @@
             padding: 12px 0;
             border-bottom: 1px solid #f0f0f0;
         }
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-        .stat-label {
-            color: #666;
-            font-size: 14px;
-        }
-        .stat-value {
-            font-weight: 600;
-            font-size: 16px;
-        }
-        .stat-value.green {
-            color: #4caf50;
-        }
-        .stat-value.red {
-            color: #f44336;
-        }
-        .btn-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-        }
-        .category-btn {
-            padding: 15px;
-            background: #f5f5f5;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-        .category-btn.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        .category-icon {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        .hidden {
-            display: none !important;
-        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-label { color: #666; font-size: 14px; }
+        .stat-value { font-weight: 600; font-size: 16px; }
+        .stat-value.green { color: #4caf50; }
+        .stat-value.red { color: #f44336; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -221,12 +136,270 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="app.js"></script>
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+        let appData = {
+            finance: {
+                income: [],
+                expense: [],
+                categories: {
+                    income: ['Lương', 'Thưởng', 'Công việc phụ', 'Đầu tư', 'Khác'],
+                    expense: ['Ăn uống', 'Nhà ở', 'Di chuyển', 'Giải trí', 'Mua sắm', 'Học tập', 'Y tế', 'Khác']
+                }
+            },
+            password: null
+        };
+
+        function login() {
+            const password = document.getElementById('passwordInput').value;
+            if (password.length < 12) {
+                alert('❌ Mật khẩu phải >= 12 ký tự!');
+                return;
+            }
+            if (!loadData(password)) {
+                alert('❌ Sai mật khẩu!');
+                return;
+            }
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            updateUI();
         }
+
+        function logout() {
+            if (confirm('Bạn có chắc muốn thoát?')) {
+                saveData();
+                location.reload();
+            }
+        }
+
+        function saveData() {
+            if (!appData.password) return;
+            const encoded = btoa(encodeURIComponent(JSON.stringify(appData)));
+            localStorage.setItem('cryptobot_data', encoded);
+        }
+
+        function loadData(password) {
+            const encoded = localStorage.getItem('cryptobot_data');
+            if (!encoded) {
+                appData.password = password;
+                saveData();
+                return true;
+            }
+            try {
+                const decoded = JSON.parse(decodeURIComponent(atob(encoded)));
+                if (decoded.password !== password) return false;
+                appData = decoded;
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function updateUI() {
+            updateDate();
+            updateFinanceSummary();
+        }
+
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('vi-VN', options);
+        }
+
+        function updateFinanceSummary() {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+            let totalIncome = 0, totalExpense = 0;
+
+            appData.finance.income.forEach(item => {
+                const date = new Date(item.date);
+                if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+                    totalIncome += item.amount;
+                }
+            });
+
+            appData.finance.expense.forEach(item => {
+                const date = new Date(item.date);
+                if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+                    totalExpense += item.amount;
+                }
+            });
+
+            const remaining = totalIncome - totalExpense;
+            document.getElementById('totalIncome').textContent = formatMoney(totalIncome);
+            document.getElementById('totalExpense').textContent = formatMoney(totalExpense);
+            document.getElementById('totalRemaining').textContent = formatMoney(remaining);
+            document.getElementById('totalRemaining').className = 'stat-value ' + (remaining >= 0 ? 'green' : 'red');
+        }
+
+        function showAddExpense() {
+            const amount = prompt('💸 Nhập số tiền chi (VND):');
+            if (!amount) return;
+            const amountNum = parseInt(amount);
+            if (isNaN(amountNum) || amountNum <= 0) {
+                alert('❌ Số tiền không hợp lệ!');
+                return;
+            }
+
+            const categories = appData.finance.categories.expense;
+            const category = prompt('📂 Hạng mục:\n' + categories.map((c, i) => `${i+1}. ${c}`).join('\n') + '\n\nNhập số hoặc tên:');
+            if (!category) return;
+
+            let selectedCat;
+            const categoryNum = parseInt(category);
+            if (!isNaN(categoryNum) && categoryNum > 0 && categoryNum <= categories.length) {
+                selectedCat = categories[categoryNum - 1];
+            } else {
+                selectedCat = category;
+            }
+
+            const note = prompt('📝 Ghi chú (tùy chọn):') || '';
+
+            appData.finance.expense.push({
+                id: Date.now(),
+                amount: amountNum,
+                category: selectedCat,
+                note: note,
+                date: new Date().toISOString()
+            });
+
+            saveData();
+            updateFinanceSummary();
+            alert(`✅ Đã ghi chi tiêu: ${formatMoney(amountNum)}\n📂 ${selectedCat}`);
+        }
+
+        function showAddIncome() {
+            const amount = prompt('💵 Nhập số tiền thu (VND):');
+            if (!amount) return;
+            const amountNum = parseInt(amount);
+            if (isNaN(amountNum) || amountNum <= 0) {
+                alert('❌ Số tiền không hợp lệ!');
+                return;
+            }
+
+            const categories = appData.finance.categories.income;
+            const category = prompt('📂 Hạng mục:\n' + categories.map((c, i) => `${i+1}. ${c}`).join('\n') + '\n\nNhập số hoặc tên:');
+            if (!category) return;
+
+            let selectedCat;
+            const categoryNum = parseInt(category);
+            if (!isNaN(categoryNum) && categoryNum > 0 && categoryNum <= categories.length) {
+                selectedCat = categories[categoryNum - 1];
+            } else {
+                selectedCat = category;
+            }
+
+            const note = prompt('📝 Ghi chú (tùy chọn):') || '';
+
+            appData.finance.income.push({
+                id: Date.now(),
+                amount: amountNum,
+                category: selectedCat,
+                note: note,
+                date: new Date().toISOString()
+            });
+
+            saveData();
+            updateFinanceSummary();
+            alert(`✅ Đã ghi thu nhập: ${formatMoney(amountNum)}\n📂 ${selectedCat}`);
+        }
+
+        function showHistory() {
+            const allTransactions = [
+                ...appData.finance.expense.map(t => ({...t, type: 'expense'})),
+                ...appData.finance.income.map(t => ({...t, type: 'income'}))
+            ].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (allTransactions.length === 0) {
+                alert('📋 Chưa có giao dịch nào!');
+                return;
+            }
+
+            let message = '📋 LỊCH SỬ (20 gần nhất):\n\n';
+            allTransactions.slice(0, 20).forEach((t, i) => {
+                const icon = t.type === 'income' ? '💵' : '💸';
+                const date = new Date(t.date).toLocaleDateString('vi-VN');
+                message += `${i+1}. ${icon} ${t.category}\n   ${formatMoney(t.amount)}\n`;
+                if (t.note) message += `   ${t.note}\n`;
+                message += `   ${date}\n\n`;
+            });
+            alert(message);
+        }
+
+        function showStats() {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+
+            const expenses = appData.finance.expense.filter(item => {
+                const date = new Date(item.date);
+                return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+            });
+
+            if (expenses.length === 0) {
+                alert('📊 Chưa có dữ liệu chi tiêu tháng này!');
+                return;
+            }
+
+            const byCategory = {};
+            let total = 0;
+
+            expenses.forEach(item => {
+                if (!byCategory[item.category]) byCategory[item.category] = 0;
+                byCategory[item.category] += item.amount;
+                total += item.amount;
+            });
+
+            let message = '📊 THỐNG KÊ CHI TIÊU:\n\n';
+            Object.entries(byCategory).sort((a, b) => b[1] - a[1]).forEach(([cat, amount]) => {
+                const percent = ((amount / total) * 100).toFixed(1);
+                message += `${cat}:\n${formatMoney(amount)} (${percent}%)\n\n`;
+            });
+            message += `TỔNG: ${formatMoney(total)}`;
+            alert(message);
+        }
+
+        function exportData() {
+            const dataStr = localStorage.getItem('cryptobot_data');
+            if (!dataStr) {
+                alert('❌ Không có dữ liệu!');
+                return;
+            }
+            const blob = new Blob([dataStr], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `cryptobot-backup-${Date.now()}.txt`;
+            link.click();
+            alert('💾 Đã xuất backup!');
+        }
+
+        function formatMoney(amount) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') login();
+        });
+
+        console.log('🚀 CryptoBot Ready!');
     </script>
 </body>
 </html>
+```
+
+4. Click **"Commit changes"**
+
+---
+
+## ⏰ ĐỢI 1-2 PHÚT
+
+GitHub rebuild...
+
+---
+
+## 📱 SAU ĐÓ THỬ LẠI:
+
+Mở Safari trên iPhone:
+```
+https://tuananhcnktck-wq.github.io/cryptobot-pwa/
