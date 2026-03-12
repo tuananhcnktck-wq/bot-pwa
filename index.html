@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CryptoBot">
+    <title>🔐 CryptoBot</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #loginScreen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 350px;
+        }
+        .logo {
+            font-size: 60px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        input[type="password"], input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 10px;
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        #mainApp {
+            display: none;
+        }
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .welcome {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .date {
+            color: #999;
+            font-size: 14px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        .stat-value {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .stat-value.green {
+            color: #4caf50;
+        }
+        .stat-value.red {
+            color: #f44336;
+        }
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .category-btn {
+            padding: 15px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .category-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .category-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginScreen">
+        <div class="login-box">
+            <div class="logo">🔐</div>
+            <h1>CryptoBot</h1>
+            <input type="password" id="passwordInput" placeholder="Mật khẩu (12+ ký tự)" autocomplete="off">
+            <button class="btn" onclick="login()">Mở khóa</button>
+        </div>
+    </div>
+
+    <div id="mainApp">
+        <div class="container">
+            <div class="header">
+                <div class="welcome">Xin chào! 👋</div>
+                <div class="date" id="currentDate"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">💰 Thu Chi Tháng Này</div>
+                <div class="stat-row">
+                    <span class="stat-label">Thu nhập</span>
+                    <span class="stat-value green" id="totalIncome">0 đ</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Chi tiêu</span>
+                    <span class="stat-value red" id="totalExpense">0 đ</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Còn lại</span>
+                    <span class="stat-value" id="totalRemaining">0 đ</span>
+                </div>
+                <div class="btn-grid">
+                    <button class="btn" onclick="showAddExpense()">💸 Ghi chi</button>
+                    <button class="btn" onclick="showAddIncome()">💵 Ghi thu</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📊 Tính năng</div>
+                <div class="btn-grid">
+                    <button class="btn" onclick="showHistory()">📋 Lịch sử</button>
+                    <button class="btn" onclick="exportData()">💾 Backup</button>
+                    <button class="btn" onclick="showStats()">📈 Thống kê</button>
+                    <button class="btn" onclick="logout()">🚪 Thoát</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
