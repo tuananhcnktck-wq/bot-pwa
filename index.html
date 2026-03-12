@@ -2,48 +2,40 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="CryptoBot">
-    <title>🔐 CryptoBot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoBot Test</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             min-height: 100vh;
+            padding: 20px;
         }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        #loginScreen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .login-box {
+        .container { max-width: 500px; margin: 0 auto; }
+        .card {
             background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 90%;
-            max-width: 350px;
-        }
-        .logo { font-size: 60px; text-align: center; margin-bottom: 20px; }
-        h1 { text-align: center; color: #667eea; margin-bottom: 30px; font-size: 24px; }
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 15px;
+            padding: 20px;
             margin-bottom: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        input:focus { outline: none; border-color: #667eea; }
+        .title { font-size: 18px; font-weight: 600; margin-bottom: 15px; }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .row:last-child { border-bottom: none; }
+        .label { color: #666; }
+        .value { font-weight: 600; }
+        .green { color: #4caf50; }
+        .red { color: #f44336; }
         .btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
             border-radius: 10px;
@@ -52,354 +44,318 @@
             cursor: pointer;
             margin-bottom: 10px;
         }
-        .btn:active { transform: scale(0.98); }
-        #mainApp { display: none; }
-        .header {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
         }
-        .welcome { font-size: 24px; font-weight: 700; color: #333; margin-bottom: 5px; }
-        .date { color: #999; font-size: 14px; }
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .card-title { font-size: 18px; font-weight: 600; color: #333; margin-bottom: 15px; }
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .stat-row:last-child { border-bottom: none; }
-        .stat-label { color: #666; font-size: 14px; }
-        .stat-value { font-weight: 600; font-size: 16px; }
-        .stat-value.green { color: #4caf50; }
-        .stat-value.red { color: #f44336; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <div id="loginScreen">
-        <div class="login-box">
-            <div class="logo">🔐</div>
-            <h1>CryptoBot</h1>
-            <input type="password" id="passwordInput" placeholder="Mật khẩu (12+ ký tự)" autocomplete="off">
-            <button class="btn" onclick="login()">Mở khóa</button>
+    <div class="container">
+        <div class="card">
+            <div class="title">🔐 CryptoBot - Test Mode</div>
+            <div>Không cần mật khẩu - Chỉ để test!</div>
         </div>
-    </div>
 
-    <div id="mainApp">
-        <div class="container">
-            <div class="header">
-                <div class="welcome">Xin chào! 👋</div>
-                <div class="date" id="currentDate"></div>
-            </div>
+        <div class="card">
+            <div class="title">👋 Xin chào!</div>
+            <div id="date"></div>
+        </div>
 
-            <div class="card">
-                <div class="card-title">💰 Thu Chi Tháng Này</div>
-                <div class="stat-row">
-                    <span class="stat-label">Thu nhập</span>
-                    <span class="stat-value green" id="totalIncome">0 đ</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Chi tiêu</span>
-                    <span class="stat-value red" id="totalExpense">0 đ</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Còn lại</span>
-                    <span class="stat-value" id="totalRemaining">0 đ</span>
-                </div>
-                <div class="btn-grid">
-                    <button class="btn" onclick="showAddExpense()">💸 Ghi chi</button>
-                    <button class="btn" onclick="showAddIncome()">💵 Ghi thu</button>
-                </div>
+        <div class="card">
+            <div class="title">💰 Thu Chi Tháng Này</div>
+            <div class="row">
+                <span class="label">Thu nhập</span>
+                <span class="value green" id="inc">0 đ</span>
             </div>
+            <div class="row">
+                <span class="label">Chi tiêu</span>
+                <span class="value red" id="exp">0 đ</span>
+            </div>
+            <div class="row">
+                <span class="label">Còn lại</span>
+                <span class="value" id="bal">0 đ</span>
+            </div>
+            <div class="grid">
+                <button class="btn" onclick="addExp()">💸 Ghi chi</button>
+                <button class="btn" onclick="addInc()">💵 Ghi thu</button>
+            </div>
+        </div>
 
-            <div class="card">
-                <div class="card-title">📊 Tính năng</div>
-                <div class="btn-grid">
-                    <button class="btn" onclick="showHistory()">📋 Lịch sử</button>
-                    <button class="btn" onclick="exportData()">💾 Backup</button>
-                    <button class="btn" onclick="showStats()">📈 Thống kê</button>
-                    <button class="btn" onclick="logout()">🚪 Thoát</button>
-                </div>
+        <div class="card">
+            <div class="grid">
+                <button class="btn" onclick="showHistory()">📋 Lịch sử</button>
+                <button class="btn" onclick="showStats()">📊 Thống kê</button>
+                <button class="btn" onclick="exportData()">💾 Backup</button>
+                <button class="btn" onclick="clearAll()">🗑️ Xóa hết</button>
             </div>
+        </div>
+
+        <div class="card">
+            <div class="title">🐛 Debug Info</div>
+            <div id="debug" style="font-size: 12px; color: #666;"></div>
         </div>
     </div>
 
     <script>
-        let appData = {
+        let data = {
             finance: {
                 income: [],
                 expense: [],
                 categories: {
-                    income: ['Lương', 'Thưởng', 'Công việc phụ', 'Đầu tư', 'Khác'],
-                    expense: ['Ăn uống', 'Nhà ở', 'Di chuyển', 'Giải trí', 'Mua sắm', 'Học tập', 'Y tế', 'Khác']
+                    income: ['Lương', 'Thưởng', 'Phụ', 'Đầu tư', 'Khác'],
+                    expense: ['Ăn uống', 'Nhà', 'Xe', 'Vui', 'Mua sắm', 'Học', 'Y tế', 'Khác']
                 }
-            },
-            password: null
+            }
         };
 
-        function login() {
-            const password = document.getElementById('passwordInput').value;
-            if (password.length < 12) {
-                alert('❌ Mật khẩu phải >= 12 ký tự!');
-                return;
-            }
-            if (!loadData(password)) {
-                alert('❌ Sai mật khẩu!');
-                return;
-            }
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-            updateUI();
-        }
-
-        function logout() {
-            if (confirm('Bạn có chắc muốn thoát?')) {
-                saveData();
-                location.reload();
-            }
-        }
-
-        function saveData() {
-            if (!appData.password) return;
-            const encoded = btoa(encodeURIComponent(JSON.stringify(appData)));
-            localStorage.setItem('cryptobot_data', encoded);
-        }
-
-        function loadData(password) {
-            const encoded = localStorage.getItem('cryptobot_data');
-            if (!encoded) {
-                appData.password = password;
-                saveData();
-                return true;
-            }
+        // Load data
+        const saved = localStorage.getItem('test_data');
+        if (saved) {
             try {
-                const decoded = JSON.parse(decodeURIComponent(atob(encoded)));
-                if (decoded.password !== password) return false;
-                appData = decoded;
-                return true;
+                data = JSON.parse(saved);
+                log('✅ Đã load data từ localStorage');
             } catch (e) {
-                return false;
+                log('❌ Lỗi load data: ' + e.message);
+            }
+        } else {
+            log('ℹ️ Chưa có data, bắt đầu mới');
+        }
+
+        // Update UI
+        update();
+
+        function log(msg) {
+            const debug = document.getElementById('debug');
+            const time = new Date().toLocaleTimeString('vi-VN');
+            debug.innerHTML = `[${time}] ${msg}<br>` + debug.innerHTML;
+            console.log(msg);
+        }
+
+        function save() {
+            try {
+                localStorage.setItem('test_data', JSON.stringify(data));
+                log('💾 Đã lưu data');
+            } catch (e) {
+                log('❌ Lỗi lưu: ' + e.message);
             }
         }
 
-        function updateUI() {
-            updateDate();
-            updateFinanceSummary();
-        }
-
-        function updateDate() {
+        function update() {
             const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('vi-VN', options);
-        }
+            document.getElementById('date').textContent = now.toLocaleDateString('vi-VN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
 
-        function updateFinanceSummary() {
-            const now = new Date();
-            const currentMonth = now.getMonth();
-            const currentYear = now.getFullYear();
-            let totalIncome = 0, totalExpense = 0;
+            const m = now.getMonth();
+            const y = now.getFullYear();
+            let inc = 0, exp = 0;
 
-            appData.finance.income.forEach(item => {
-                const date = new Date(item.date);
-                if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
-                    totalIncome += item.amount;
+            data.finance.income.forEach(i => {
+                const d = new Date(i.date);
+                if (d.getMonth() === m && d.getFullYear() === y) {
+                    inc += i.amount;
                 }
             });
 
-            appData.finance.expense.forEach(item => {
-                const date = new Date(item.date);
-                if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
-                    totalExpense += item.amount;
+            data.finance.expense.forEach(e => {
+                const d = new Date(e.date);
+                if (d.getMonth() === m && d.getFullYear() === y) {
+                    exp += e.amount;
                 }
             });
 
-            const remaining = totalIncome - totalExpense;
-            document.getElementById('totalIncome').textContent = formatMoney(totalIncome);
-            document.getElementById('totalExpense').textContent = formatMoney(totalExpense);
-            document.getElementById('totalRemaining').textContent = formatMoney(remaining);
-            document.getElementById('totalRemaining').className = 'stat-value ' + (remaining >= 0 ? 'green' : 'red');
+            const bal = inc - exp;
+
+            document.getElementById('inc').textContent = fmt(inc);
+            document.getElementById('exp').textContent = fmt(exp);
+            document.getElementById('bal').textContent = fmt(bal);
+            document.getElementById('bal').className = 'value ' + (bal >= 0 ? 'green' : 'red');
+
+            log(`📊 Cập nhật: Thu ${fmt(inc)}, Chi ${fmt(exp)}, Còn ${fmt(bal)}`);
         }
 
-        function showAddExpense() {
-            const amount = prompt('💸 Nhập số tiền chi (VND):');
-            if (!amount) return;
-            const amountNum = parseInt(amount);
-            if (isNaN(amountNum) || amountNum <= 0) {
+        function addExp() {
+            log('🔵 Bắt đầu ghi chi...');
+            const a = prompt('💸 Nhập số tiền chi (VND):');
+            if (!a) { log('⚪ Hủy ghi chi'); return; }
+
+            const amt = parseInt(a);
+            if (isNaN(amt) || amt <= 0) {
                 alert('❌ Số tiền không hợp lệ!');
+                log('❌ Số tiền không hợp lệ: ' + a);
                 return;
             }
 
-            const categories = appData.finance.categories.expense;
-            const category = prompt('📂 Hạng mục:\n' + categories.map((c, i) => `${i+1}. ${c}`).join('\n') + '\n\nNhập số hoặc tên:');
-            if (!category) return;
+            const cats = data.finance.categories.expense;
+            const c = prompt('📂 Chọn hạng mục:\n' + cats.map((x, i) => `${i+1}. ${x}`).join('\n') + '\n\nNhập số hoặc tên:');
+            if (!c) { log('⚪ Hủy chọn hạng mục'); return; }
 
-            let selectedCat;
-            const categoryNum = parseInt(category);
-            if (!isNaN(categoryNum) && categoryNum > 0 && categoryNum <= categories.length) {
-                selectedCat = categories[categoryNum - 1];
-            } else {
-                selectedCat = category;
-            }
+            const n = parseInt(c);
+            const cat = !isNaN(n) && n > 0 && n <= cats.length ? cats[n - 1] : c;
 
             const note = prompt('📝 Ghi chú (tùy chọn):') || '';
 
-            appData.finance.expense.push({
+            data.finance.expense.push({
                 id: Date.now(),
-                amount: amountNum,
-                category: selectedCat,
+                amount: amt,
+                category: cat,
                 note: note,
                 date: new Date().toISOString()
             });
 
-            saveData();
-            updateFinanceSummary();
-            alert(`✅ Đã ghi chi tiêu: ${formatMoney(amountNum)}\n📂 ${selectedCat}`);
+            save();
+            update();
+
+            alert(`✅ Đã ghi chi tiêu:\n${fmt(amt)}\n${cat}`);
+            log(`✅ Ghi chi: ${fmt(amt)} - ${cat}`);
         }
 
-        function showAddIncome() {
-            const amount = prompt('💵 Nhập số tiền thu (VND):');
-            if (!amount) return;
-            const amountNum = parseInt(amount);
-            if (isNaN(amountNum) || amountNum <= 0) {
+        function addInc() {
+            log('🔵 Bắt đầu ghi thu...');
+            const a = prompt('💵 Nhập số tiền thu (VND):');
+            if (!a) { log('⚪ Hủy ghi thu'); return; }
+
+            const amt = parseInt(a);
+            if (isNaN(amt) || amt <= 0) {
                 alert('❌ Số tiền không hợp lệ!');
+                log('❌ Số tiền không hợp lệ: ' + a);
                 return;
             }
 
-            const categories = appData.finance.categories.income;
-            const category = prompt('📂 Hạng mục:\n' + categories.map((c, i) => `${i+1}. ${c}`).join('\n') + '\n\nNhập số hoặc tên:');
-            if (!category) return;
+            const cats = data.finance.categories.income;
+            const c = prompt('📂 Chọn hạng mục:\n' + cats.map((x, i) => `${i+1}. ${x}`).join('\n') + '\n\nNhập số hoặc tên:');
+            if (!c) { log('⚪ Hủy chọn hạng mục'); return; }
 
-            let selectedCat;
-            const categoryNum = parseInt(category);
-            if (!isNaN(categoryNum) && categoryNum > 0 && categoryNum <= categories.length) {
-                selectedCat = categories[categoryNum - 1];
-            } else {
-                selectedCat = category;
-            }
+            const n = parseInt(c);
+            const cat = !isNaN(n) && n > 0 && n <= cats.length ? cats[n - 1] : c;
 
             const note = prompt('📝 Ghi chú (tùy chọn):') || '';
 
-            appData.finance.income.push({
+            data.finance.income.push({
                 id: Date.now(),
-                amount: amountNum,
-                category: selectedCat,
+                amount: amt,
+                category: cat,
                 note: note,
                 date: new Date().toISOString()
             });
 
-            saveData();
-            updateFinanceSummary();
-            alert(`✅ Đã ghi thu nhập: ${formatMoney(amountNum)}\n📂 ${selectedCat}`);
+            save();
+            update();
+
+            alert(`✅ Đã ghi thu nhập:\n${fmt(amt)}\n${cat}`);
+            log(`✅ Ghi thu: ${fmt(amt)} - ${cat}`);
         }
 
         function showHistory() {
-            const allTransactions = [
-                ...appData.finance.expense.map(t => ({...t, type: 'expense'})),
-                ...appData.finance.income.map(t => ({...t, type: 'income'}))
+            const all = [
+                ...data.finance.expense.map(t => ({ ...t, type: 'exp' })),
+                ...data.finance.income.map(t => ({ ...t, type: 'inc' }))
             ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            if (allTransactions.length === 0) {
+            if (!all.length) {
                 alert('📋 Chưa có giao dịch nào!');
+                log('ℹ️ Lịch sử trống');
                 return;
             }
 
-            let message = '📋 LỊCH SỬ (20 gần nhất):\n\n';
-            allTransactions.slice(0, 20).forEach((t, i) => {
-                const icon = t.type === 'income' ? '💵' : '💸';
-                const date = new Date(t.date).toLocaleDateString('vi-VN');
-                message += `${i+1}. ${icon} ${t.category}\n   ${formatMoney(t.amount)}\n`;
-                if (t.note) message += `   ${t.note}\n`;
-                message += `   ${date}\n\n`;
+            let msg = '📋 LỊCH SỬ (20 gần nhất):\n\n';
+            all.slice(0, 20).forEach((t, i) => {
+                const icon = t.type === 'inc' ? '💵' : '💸';
+                msg += `${i + 1}. ${icon} ${t.category}\n   ${fmt(t.amount)}\n`;
+                if (t.note) msg += `   ${t.note}\n`;
+                msg += `   ${new Date(t.date).toLocaleDateString('vi-VN')}\n\n`;
             });
-            alert(message);
+
+            alert(msg);
+            log(`📋 Hiện lịch sử: ${all.length} giao dịch`);
         }
 
         function showStats() {
             const now = new Date();
-            const currentMonth = now.getMonth();
-            const currentYear = now.getFullYear();
+            const m = now.getMonth();
+            const y = now.getFullYear();
 
-            const expenses = appData.finance.expense.filter(item => {
-                const date = new Date(item.date);
-                return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+            const exps = data.finance.expense.filter(e => {
+                const d = new Date(e.date);
+                return d.getMonth() === m && d.getFullYear() === y;
             });
 
-            if (expenses.length === 0) {
+            if (!exps.length) {
                 alert('📊 Chưa có dữ liệu chi tiêu tháng này!');
+                log('ℹ️ Thống kê trống');
                 return;
             }
 
-            const byCategory = {};
-            let total = 0;
+            const by = {};
+            let tot = 0;
 
-            expenses.forEach(item => {
-                if (!byCategory[item.category]) byCategory[item.category] = 0;
-                byCategory[item.category] += item.amount;
-                total += item.amount;
+            exps.forEach(e => {
+                if (!by[e.category]) by[e.category] = 0;
+                by[e.category] += e.amount;
+                tot += e.amount;
             });
 
-            let message = '📊 THỐNG KÊ CHI TIÊU:\n\n';
-            Object.entries(byCategory).sort((a, b) => b[1] - a[1]).forEach(([cat, amount]) => {
-                const percent = ((amount / total) * 100).toFixed(1);
-                message += `${cat}:\n${formatMoney(amount)} (${percent}%)\n\n`;
+            let msg = '📊 THỐNG KÊ CHI TIÊU:\n\n';
+            Object.entries(by).sort((a, b) => b[1] - a[1]).forEach(([cat, amt]) => {
+                const pct = ((amt / tot) * 100).toFixed(1);
+                msg += `${cat}:\n${fmt(amt)} (${pct}%)\n\n`;
             });
-            message += `TỔNG: ${formatMoney(total)}`;
-            alert(message);
+            msg += `TỔNG: ${fmt(tot)}`;
+
+            alert(msg);
+            log(`📊 Thống kê: ${exps.length} chi tiêu`);
         }
 
         function exportData() {
-            const dataStr = localStorage.getItem('cryptobot_data');
-            if (!dataStr) {
+            const d = localStorage.getItem('test_data');
+            if (!d) {
                 alert('❌ Không có dữ liệu!');
                 return;
             }
-            const blob = new Blob([dataStr], { type: 'text/plain' });
+
+            const blob = new Blob([d], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `cryptobot-backup-${Date.now()}.txt`;
-            link.click();
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cryptobot-backup-${Date.now()}.txt`;
+            a.click();
+
             alert('💾 Đã xuất backup!');
+            log('💾 Xuất backup thành công');
         }
 
-        function formatMoney(amount) {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+        function clearAll() {
+            if (confirm('🗑️ Xóa hết dữ liệu?')) {
+                localStorage.removeItem('test_data');
+                location.reload();
+            }
         }
 
-        document.getElementById('passwordInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') login();
-        });
+        function fmt(n) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(n);
+        }
 
-        console.log('🚀 CryptoBot Ready!');
+        log('🚀 App đã khởi động!');
     </script>
 </body>
 </html>
 ```
 
-4. Click **"Commit changes"**
+3. **Commit changes**
 
 ---
 
-## ⏰ ĐỢI 1-2 PHÚT
+## ⏰ ĐỢI 1 PHÚT
 
-GitHub rebuild...
-
----
-
-## 📱 SAU ĐÓ THỬ LẠI:
-
-Mở Safari trên iPhone:
+Sau đó mở trên iPhone:
 ```
-https://tuananhcnktck-wq.github.io/cryptobot-pwa/
+https://tuananhcnktck-wq.github.io/bot-pwa/
